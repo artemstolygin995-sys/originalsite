@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300" role="img" aria-label="Porsche 911 спортивное купе">
+  <defs>
+    <linearGradient id="paint" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset=".34" stop-color="#dbe9ff"/>
+      <stop offset=".72" stop-color="#a8c4f2"/>
+      <stop offset="1" stop-color="#7199db"/>
+    </linearGradient>
+    <linearGradient id="paint2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".88"/>
+      <stop offset="1" stop-color="#5c82c0" stop-opacity=".15"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e8f3ff"/>
+      <stop offset=".55" stop-color="#86ace2"/>
+      <stop offset="1" stop-color="#345b94"/>
+    </linearGradient>
+    <radialGradient id="tire" cx="50%" cy="45%" r="55%">
+      <stop offset="0" stop-color="#eef4ff"/>
+      <stop offset=".18" stop-color="#9fb2cf"/>
+      <stop offset=".42" stop-color="#17253b"/>
+      <stop offset="1" stop-color="#07101d"/>
+    </radialGradient>
+    <filter id="shadow" x="-10%" y="-20%" width="120%" height="160%">
+      <feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#183b72" flood-opacity=".2"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <ellipse cx="512" cy="253" rx="390" ry="15" fill="#2d7df6" opacity=".08"/>
+
+    <!-- 911-like body: low nose, rounded roof and rear haunch -->
+    <path d="M65 198
+             C85 184 107 169 133 159
+             C168 145 225 139 296 136
+             L347 132
+             C389 124 412 95 445 67
+             C480 38 528 24 582 25
+             C655 27 713 55 759 93
+             C792 120 822 139 866 152
+             C897 161 922 169 940 184
+             C954 195 962 207 965 219
+             L916 228
+             C904 199 881 180 843 174
+             C805 168 769 177 747 202
+             C734 217 725 231 719 246
+             L282 246
+             C275 229 267 215 253 202
+             C232 181 201 172 166 176
+             C126 181 99 201 87 228
+             L49 224
+             C48 213 52 205 65 198Z"
+          fill="url(#paint)" stroke="#7da5e2" stroke-width="4" stroke-linejoin="round"/>
+
+    <!-- lower sill -->
+    <path d="M280 222 C400 231 620 231 720 217 L714 241 L284 241Z" fill="#6f96d0" opacity=".38"/>
+    <path d="M284 237 H716" stroke="#eef5ff" stroke-width="3" opacity=".62"/>
+
+    <!-- classic 911 roof/glass arc -->
+    <path d="M365 132
+             C401 112 418 86 449 61
+             C477 39 520 30 566 31
+             C628 32 680 54 724 91
+             C742 106 758 119 776 132Z"
+          fill="url(#glass)" stroke="#789fdd" stroke-width="3"/>
+    <path d="M439 63 C467 43 515 35 560 36 C616 37 660 53 697 79"
+          fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".62"/>
+    <path d="M557 33 C558 61 559 90 560 133" stroke="#5d84c4" stroke-width="4" opacity=".6"/>
+    <path d="M676 69 C694 85 713 104 732 131" stroke="#4c73ae" stroke-width="4" opacity=".55"/>
+
+    <!-- characteristic fenders and belt line -->
+    <path d="M105 188 C124 161 158 151 204 151 C244 151 277 164 300 189" fill="none" stroke="#567dbc" stroke-width="4" stroke-linecap="round"/>
+    <path d="M727 191 C751 160 783 149 823 151 C861 153 891 167 908 190" fill="none" stroke="#567dbc" stroke-width="4" stroke-linecap="round"/>
+    <path d="M285 154 C413 143 603 143 746 149" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity=".72"/>
+    <path d="M286 165 C425 154 609 155 750 160" fill="none" stroke="#6188c8" stroke-width="3" stroke-linecap="round" opacity=".92"/>
+    <path d="M343 194 H685" stroke="#4770b4" stroke-width="4" stroke-linecap="round" opacity=".88"/>
+
+    <!-- door and handle -->
+    <path d="M391 151 L383 219" stroke="#6d96d4" stroke-width="3" opacity=".58"/>
+    <path d="M682 153 L696 215" stroke="#5077b4" stroke-width="3" opacity=".55"/>
+    <path d="M614 162 h27" stroke="#f8fbff" stroke-width="4" stroke-linecap="round" opacity=".75"/>
+
+    <!-- front round headlamp cue -->
+    <ellipse cx="907" cy="174" rx="17" ry="10" fill="#eaf4ff" stroke="#6f98d7" stroke-width="3"/>
+    <path d="M919 178 l24 6" stroke="#90b2e8" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- rear light strip cue -->
+    <path d="M94 176 C104 170 115 167 128 165" stroke="#e8f2ff" stroke-width="6" stroke-linecap="round" opacity=".76"/>
+
+    <!-- wheels -->
+    <g transform="translate(191 211)">
+      <circle r="61" fill="url(#tire)" stroke="#d4e2f8" stroke-width="5"/>
+      <circle r="42" fill="#0a1424" stroke="#a9bddb" stroke-width="3"/>
+      <circle r="14" fill="#07101b" stroke="#e7effc" stroke-width="3"/>
+      <g stroke="#f2f6ff" stroke-width="3.6" stroke-linecap="round">
+        <path d="M0-42V-14"/><path d="M0 14V42"/><path d="M-42 0h28"/><path d="M14 0h28"/>
+        <path d="M-30-30l20 20"/><path d="M10 10l20 20"/><path d="M30-30L10-10"/><path d="M-10 10l-20 20"/>
+        <path d="M-16-39l7 26"/><path d="M16-39l-7 26"/><path d="M-16 39l7-26"/><path d="M16 39l-7-26"/>
+      </g>
+      <circle r="5" fill="#eff5ff"/>
+    </g>
+    <g transform="translate(808 211)">
+      <circle r="61" fill="url(#tire)" stroke="#d4e2f8" stroke-width="5"/>
+      <circle r="42" fill="#0a1424" stroke="#a9bddb" stroke-width="3"/>
+      <circle r="14" fill="#07101b" stroke="#e7effc" stroke-width="3"/>
+      <g stroke="#f2f6ff" stroke-width="3.6" stroke-linecap="round">
+        <path d="M0-42V-14"/><path d="M0 14V42"/><path d="M-42 0h28"/><path d="M14 0h28"/>
+        <path d="M-30-30l20 20"/><path d="M10 10l20 20"/><path d="M30-30L10-10"/><path d="M-10 10l-20 20"/>
+        <path d="M-16-39l7 26"/><path d="M16-39l-7 26"/><path d="M-16 39l7-26"/><path d="M16 39l-7-26"/>
+      </g>
+      <circle r="5" fill="#eff5ff"/>
+    </g>
+
+    <!-- subtle body reflections -->
+    <path d="M274 180 C430 167 594 169 719 176" stroke="url(#paint2)" stroke-width="10" stroke-linecap="round" opacity=".42"/>
+  </g>
+</svg>
