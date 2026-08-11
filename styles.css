@@ -1471,3 +1471,72 @@ body.question-open { overflow: hidden; }
     animation: none !important;
   }
 }
+
+
+/* ===== v22: mobile intro without half-screen clipping ===== */
+@media (max-width: 760px), (pointer: coarse) {
+  /* Keep the intro, but never cover only one side of the viewport. */
+  .home-page .hero::after {
+    display: block !important;
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 12 !important;
+    pointer-events: none !important;
+    background: linear-gradient(100deg,#0a1018 0%,#0d1725 58%,#173156 88%,rgba(23,49,86,.96) 100%) !important;
+    transform: none !important;
+    opacity: 1 !important;
+    animation: none !important;
+    transition: opacity .62s ease !important;
+  }
+  .home-page.loaded .hero::after {
+    transform: none !important;
+    opacity: 0 !important;
+    transition: opacity .62s ease !important;
+  }
+
+  /* No clip-path on mobile: it was visually cutting off the right side. */
+  .hero-content.reveal-on-load {
+    opacity: 0 !important;
+    transform: translateY(10px) scale(.992) !important;
+    filter: blur(7px) !important;
+    clip-path: none !important;
+    animation: none !important;
+  }
+  body.loaded .hero-content.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: blur(0) !important;
+    clip-path: none !important;
+    transition: opacity .66s ease .06s, transform .78s var(--ease) .06s, filter .66s ease .06s !important;
+  }
+
+  /* Buttons are always full-width/full-shape; animate only opacity/position of the parent. */
+  .hero-cta,
+  .hero-cta .btn {
+    clip-path: none !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    overflow: visible !important;
+  }
+
+  /* Hero card appears as a complete card from the first frame. */
+  .hero-visual.reveal-on-load {
+    opacity: .72 !important;
+    transform: translateY(10px) scale(.99) !important;
+    filter: blur(3px) !important;
+    clip-path: none !important;
+    visibility: visible !important;
+  }
+  body.loaded .hero-visual.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: blur(0) !important;
+    clip-path: none !important;
+    transition: opacity .7s ease .08s, transform .86s var(--ease) .08s, filter .7s ease .08s !important;
+  }
+
+  /* Prevent any horizontal excursion while intro transforms are active. */
+  html, body { overflow-x: hidden !important; }
+  .hero { overflow-x: hidden !important; }
+}
