@@ -1592,14 +1592,14 @@ body.question-open { overflow: hidden; }
   }
 
   html.mobile-intro-prep .home-page .hero-content h1 {
-    transform: translate3d(0, 38px, 0) scale(.975) !important;
+    transform: translate3d(0, 24px, 0) scale(.985) !important;
   }
   html.mobile-intro-prep .home-page .hero-content .hero-lead {
-    transform: translate3d(0, 30px, 0) !important;
+    transform: translate3d(0, 20px, 0) !important;
   }
   html.mobile-intro-prep .home-page .hero-content .hero-cta .btn,
   html.mobile-intro-prep .home-page .question-fab {
-    transform: translate3d(0, 22px, 0) !important;
+    transform: translate3d(0, 16px, 0) !important;
   }
 
   /* Do not allow older mobile transition rules to compete with the WAAPI intro. */

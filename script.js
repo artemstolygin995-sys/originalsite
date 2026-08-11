@@ -24,21 +24,22 @@
     }
 
     const targets = [
-      { el: document.querySelector('.hero-content h1'), y: 38, scale: .975, delay: 0 },
-      { el: document.querySelector('.hero-content .hero-lead'), y: 30, scale: 1, delay: 110 },
-      { el: document.querySelector('.hero-content .hero-cta .btn:nth-child(1)'), y: 22, scale: 1, delay: 220 },
-      { el: document.querySelector('.hero-content .hero-cta .btn:nth-child(2)'), y: 22, scale: 1, delay: 310 },
-      { el: document.querySelector('.question-fab'), y: 22, scale: 1, delay: 400 }
+      { el: document.querySelector('.hero-content h1'), y: 24, scale: .985, delay: 0 },
+      { el: document.querySelector('.hero-content .hero-lead'), y: 20, scale: 1, delay: 120 },
+      { el: document.querySelector('.hero-content .hero-cta .btn:nth-child(1)'), y: 16, scale: 1, delay: 210 },
+      { el: document.querySelector('.hero-content .hero-cta .btn:nth-child(2)'), y: 16, scale: 1, delay: 290 },
+      { el: document.querySelector('.question-fab'), y: 16, scale: 1, delay: 760 }
     ].filter(item => item.el);
 
     const start = () => {
       const animations = targets.map(({ el, y, scale, delay }) => el.animate([
-        { opacity: 0, transform: `translate3d(0, ${y}px, 0) scale(${scale})` },
-        { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }
+        { opacity: 0, transform: `translate3d(0, ${y}px, 0) scale(${scale})`, filter: 'blur(8px)' },
+        { opacity: .55, transform: `translate3d(0, ${Math.round(y * 0.35)}px, 0) scale(${1 - ((1 - scale) * 0.35)})`, filter: 'blur(3px)', offset: 0.58 },
+        { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)', filter: 'blur(0px)' }
       ], {
-        duration: 720,
+        duration: 980,
         delay,
-        easing: 'cubic-bezier(.16,1,.3,1)',
+        easing: 'cubic-bezier(.22,.61,.36,1)',
         fill: 'both'
       }));
 
@@ -59,7 +60,7 @@
     });
 
     // Safety: never leave requested content hidden if animations are unavailable.
-    window.setTimeout(() => root.classList.remove('mobile-intro-prep'), 1800);
+    window.setTimeout(() => root.classList.remove('mobile-intro-prep'), 2200);
   };
 
   playMobileIntro();
