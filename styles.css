@@ -1379,116 +1379,252 @@ body.question-open { overflow: hidden; }
   transform: none !important;
 }
 
-/* ===== v26: mobile hero entrance — whole blocks, no masks, no staggered loading ===== */
-@media screen and (max-width: 760px) {
-  /* Desktop sweep is desktop-only. It must never cover part of the mobile screen. */
+
+/* ===== v20: desktop entrance animation on mobile ===== */
+@media (max-width: 760px), (pointer: coarse) {
+  /* Use the exact same entrance behavior as the desktop version. */
+  .home-page .hero::after {
+    display: block !important;
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 12 !important;
+    pointer-events: none !important;
+    background: linear-gradient(100deg,#0a1018 0%,#0d1725 58%,#173156 88%,rgba(23,49,86,.96) 100%) !important;
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  .home-page.loaded .hero::after {
+    transform: translateX(108%) !important;
+    transition: transform 1.05s cubic-bezier(.72,.02,.18,1) !important;
+  }
+
+  .home-page:not(.loaded) .site-header {
+    opacity: 0 !important;
+    transform: translateY(-16px) !important;
+  }
+  .home-page.loaded .site-header {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: opacity .55s ease .36s, transform .7s var(--ease) .36s, background .35s ease, border-color .35s ease, backdrop-filter .35s ease !important;
+  }
+
+  .hero-content.reveal-on-load {
+    opacity: 0 !important;
+    transform: translateX(-34px) !important;
+    filter: blur(10px) !important;
+    clip-path: inset(0 14% 0 0) !important;
+    animation: none !important;
+  }
+  body.loaded .hero-content.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: blur(0) !important;
+    clip-path: inset(0) !important;
+    transition: opacity .72s ease .22s, transform .92s var(--ease) .22s, filter .82s ease .22s, clip-path .92s var(--ease) .22s !important;
+  }
+
+  .hero-visual.reveal-on-load {
+    opacity: 0 !important;
+    transform: translateX(48px) rotateY(-7deg) scale(.965) !important;
+    filter: blur(8px) !important;
+    animation: none !important;
+  }
+  body.loaded .hero-visual.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: blur(0) !important;
+    transition: opacity .76s ease .42s, transform 1.02s var(--ease) .42s, filter .9s ease .42s !important;
+  }
+
+  /* Keep the car itself static after the entrance, as requested for mobile. */
+  .dossier-car img {
+    animation: none !important;
+  }
+}
+
+
+/* ===== v21: immediate mobile hero-card render ===== */
+@media (max-width: 760px), (pointer: coarse) {
+  /* The card must never be completely hidden while the intro animation runs. */
+  .hero-visual.reveal-on-load {
+    opacity: .96 !important;
+    transform: translateX(38px) rotateY(-6deg) scale(.97) !important;
+    filter: blur(4px) !important;
+    animation: none !important;
+    visibility: visible !important;
+  }
+  body.loaded .hero-visual.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: blur(0) !important;
+    transition: opacity .62s ease 0s, transform .86s var(--ease) 0s, filter .7s ease 0s !important;
+  }
+  .vehicle-dossier,
+  .dossier-car,
+  .dossier-car img {
+    visibility: visible !important;
+  }
+  .dossier-car img {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
+
+
+/* ===== v22: mobile intro without half-screen clipping ===== */
+@media (max-width: 760px), (pointer: coarse) {
+  /* Keep the intro, but never cover only one side of the viewport. */
+  .home-page .hero::after {
+    display: block !important;
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 12 !important;
+    pointer-events: none !important;
+    background: linear-gradient(100deg,#0a1018 0%,#0d1725 58%,#173156 88%,rgba(23,49,86,.96) 100%) !important;
+    transform: none !important;
+    opacity: 1 !important;
+    animation: none !important;
+    transition: opacity .62s ease !important;
+  }
+  .home-page.loaded .hero::after {
+    transform: none !important;
+    opacity: 0 !important;
+    transition: opacity .62s ease !important;
+  }
+
+  /* No clip-path on mobile: it was visually cutting off the right side. */
+  .hero-content.reveal-on-load {
+    opacity: 0 !important;
+    transform: translateY(10px) scale(.992) !important;
+    filter: blur(7px) !important;
+    clip-path: none !important;
+    animation: none !important;
+  }
+  body.loaded .hero-content.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: blur(0) !important;
+    clip-path: none !important;
+    transition: opacity .66s ease .06s, transform .78s var(--ease) .06s, filter .66s ease .06s !important;
+  }
+
+  /* Buttons are always full-width/full-shape; animate only opacity/position of the parent. */
+  .hero-cta,
+  .hero-cta .btn {
+    clip-path: none !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    overflow: visible !important;
+  }
+
+  /* Hero card appears as a complete card from the first frame. */
+  .hero-visual.reveal-on-load {
+    opacity: .72 !important;
+    transform: translateY(10px) scale(.99) !important;
+    filter: blur(3px) !important;
+    clip-path: none !important;
+    visibility: visible !important;
+  }
+  body.loaded .hero-visual.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: blur(0) !important;
+    clip-path: none !important;
+    transition: opacity .7s ease .08s, transform .86s var(--ease) .08s, filter .7s ease .08s !important;
+  }
+
+  /* Prevent any horizontal excursion while intro transforms are active. */
+  html, body { overflow-x: hidden !important; }
+  .hero { overflow-x: hidden !important; }
+}
+
+
+/* ===== v28: mobile intro only for visible first-screen elements ===== */
+@media (max-width: 760px), (pointer: coarse) {
+  /* Disable the heavy mobile hero reveal variants that caused delayed/partial rendering. */
   .home-page .hero::after,
   .home-page.loaded .hero::after {
     display: none !important;
-    content: none !important;
+    opacity: 0 !important;
+    transform: none !important;
+    transition: none !important;
   }
 
-  /* Neutralise desktop reveal states on mobile before applying the dedicated intro. */
-  .home-page .site-header,
   .home-page:not(.loaded) .site-header,
-  .home-page.loaded .site-header,
+  .home-page.loaded .site-header {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: background .35s ease, border-color .35s ease, backdrop-filter .35s ease !important;
+  }
+
   .hero-content.reveal-on-load,
   body.loaded .hero-content.reveal-on-load,
   .hero-visual.reveal-on-load,
   body.loaded .hero-visual.reveal-on-load {
-    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
     clip-path: none !important;
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
     transition: none !important;
   }
 
-  /* Do NOT animate inner pieces separately: buttons/text stay complete from frame one. */
-  .hero-content .eyebrow,
-  .hero-content h1,
-  .hero-content .hero-lead,
-  .hero-content .hero-cta,
-  .hero-content .hero-cta .btn,
-  .hero-visual .vehicle-card-back,
-  .hero-visual .vehicle-dossier,
+  .vehicle-card-back,
+  .vehicle-dossier,
   .dossier-car,
   .dossier-car img {
-    animation: none !important;
-    clip-path: none !important;
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
-  }
-
-  /* Header, complete text/CTA block and complete car block animate independently, all immediately. */
-  .home-page .site-header,
-  .home-page:not(.loaded) .site-header,
-  .home-page.loaded .site-header {
-    opacity: 1 !important;
-    filter: none !important;
-    transform: none !important;
-    animation: v26MobileHeader 900ms cubic-bezier(.16,.84,.24,1) 0ms both !important;
-    will-change: transform, opacity;
-  }
-
-  .hero-content.reveal-on-load,
-  body.loaded .hero-content.reveal-on-load {
-    opacity: 1 !important;
-    filter: none !important;
-    transform: none !important;
-    animation: v26MobileContent 1100ms cubic-bezier(.16,.84,.24,1) 0ms both !important;
-    will-change: transform, opacity;
-  }
-
-  .hero-visual.reveal-on-load,
-  body.loaded .hero-visual.reveal-on-load {
-    opacity: 1 !important;
-    filter: none !important;
-    transform: none !important;
-    animation: v26MobileVisual 1100ms cubic-bezier(.16,.84,.24,1) 20ms both !important;
-    will-change: transform, opacity;
-  }
-
-  /* Keep every CTA/button fully shaped throughout the intro. */
-  .hero-cta,
-  .hero-cta .btn {
     opacity: 1 !important;
     visibility: visible !important;
-    overflow: visible !important;
-  }
-
-  /* Preserve the existing mobile card geometry while its parent enters as one object. */
-  .hero-visual .vehicle-card-back.back-one,
-  .hero-visual .vehicle-card-back.back-two,
-  .hero-visual .vehicle-dossier {
-    opacity: revert !important;
-  }
-
-  /* The car itself remains static after the card entrance. */
-  .dossier-car img {
+    filter: none !important;
     transform: none !important;
   }
 
-  html,
-  body,
-  .hero {
-    overflow-x: hidden !important;
+  /* Animate ONLY the elements requested for mobile: heading, lead, two buttons, and the question button. */
+  .home-page .hero-content h1,
+  .home-page .hero-content .hero-lead,
+  .home-page .hero-content .hero-cta .btn,
+  .home-page .question-fab {
+    will-change: opacity, transform;
+    backface-visibility: hidden;
   }
-}
 
-@keyframes v26MobileHeader {
-  0%   { opacity: 0; transform: translate3d(0,-28px,0); }
-  55%  { opacity: 1; }
-  100% { opacity: 1; transform: translate3d(0,0,0); }
-}
+  .home-page:not(.loaded) .hero-content h1,
+  .home-page:not(.loaded) .hero-content .hero-lead,
+  .home-page:not(.loaded) .hero-content .hero-cta .btn,
+  .home-page:not(.loaded) .question-fab {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
 
-@keyframes v26MobileContent {
-  0%   { opacity: 0; transform: translate3d(-34px,28px,0) scale(.975); }
-  35%  { opacity: .62; }
-  100% { opacity: 1; transform: translate3d(0,0,0) scale(1); }
-}
+  .home-page.loaded .hero-content h1 {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition: opacity .48s ease .04s, transform .64s cubic-bezier(.22,.75,.23,1) .04s;
+  }
 
-@keyframes v26MobileVisual {
-  0%   { opacity: 0; transform: translate3d(30px,34px,0) scale(.965); }
-  38%  { opacity: .58; }
-  100% { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+  .home-page.loaded .hero-content .hero-lead {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition: opacity .48s ease .14s, transform .64s cubic-bezier(.22,.75,.23,1) .14s;
+  }
+
+  .home-page.loaded .hero-content .hero-cta .btn:nth-child(1) {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition: opacity .44s ease .22s, transform .58s cubic-bezier(.22,.75,.23,1) .22s;
+  }
+
+  .home-page.loaded .hero-content .hero-cta .btn:nth-child(2) {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition: opacity .44s ease .30s, transform .58s cubic-bezier(.22,.75,.23,1) .30s;
+  }
+
+  .home-page.loaded .question-fab {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition: opacity .44s ease .38s, transform .58s cubic-bezier(.22,.75,.23,1) .38s;
+  }
 }
