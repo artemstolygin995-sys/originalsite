@@ -1381,37 +1381,93 @@ body.question-open { overflow: hidden; }
 }
 
 
-/* ===== v16 mobile immediate first paint ===== */
+
+
+/* ===== v17 mobile entrance without loading lag ===== */
 @media (max-width: 760px), (pointer: coarse) {
-  /* Do not hide the first screen while the page is booting on phones. */
+  /* Keep the entrance animation, but start it immediately and finish quickly. */
   .home-page .hero::after {
-    display: none !important;
+    display: block !important;
+    transform: translateX(0) !important;
+    opacity: .72 !important;
+    transition: none !important;
   }
-  .home-page:not(.loaded) .site-header,
+  .home-page.loaded .hero::after {
+    transform: translateX(108%) !important;
+    opacity: 0 !important;
+    transition:
+      transform .58s cubic-bezier(.68,.04,.22,1) 0s,
+      opacity .42s ease .08s !important;
+  }
+
+  .home-page:not(.loaded) .site-header {
+    opacity: 0 !important;
+    transform: translateY(-8px) !important;
+  }
   .home-page.loaded .site-header {
     opacity: 1 !important;
     transform: none !important;
-    transition: background .25s ease, border-color .25s ease, backdrop-filter .25s ease !important;
+    transition:
+      opacity .34s ease 0s,
+      transform .44s cubic-bezier(.22,.8,.2,1) 0s,
+      background .25s ease,
+      border-color .25s ease,
+      backdrop-filter .25s ease !important;
   }
-  .hero-content.reveal-on-load,
-  .hero-visual.reveal-on-load,
-  body.loaded .hero-content.reveal-on-load,
+
+  .hero-content.reveal-on-load {
+    opacity: 0 !important;
+    transform: translate3d(-12px,0,0) !important;
+    filter: blur(3px) !important;
+    clip-path: inset(0 4% 0 0) !important;
+  }
+  body.loaded .hero-content.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: blur(0) !important;
+    clip-path: inset(0) !important;
+    transition:
+      opacity .42s ease .02s,
+      transform .48s cubic-bezier(.22,.8,.2,1) .02s,
+      filter .38s ease .02s,
+      clip-path .48s cubic-bezier(.22,.8,.2,1) .02s !important;
+  }
+
+  /* Buttons are available immediately; only a very short visual settle remains. */
+  .hero-cta {
+    opacity: 0 !important;
+    transform: translateY(6px) !important;
+  }
+  body.loaded .hero-cta {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: opacity .28s ease .10s, transform .34s cubic-bezier(.22,.8,.2,1) .10s !important;
+  }
+  .hero-cta .btn { transition-delay: 0s !important; }
+
+  /* The lower dossier starts almost at once instead of waiting ~0.4–1.0 s. */
+  .hero-visual.reveal-on-load {
+    opacity: 0 !important;
+    transform: translate3d(0,12px,0) scale(.99) !important;
+    filter: blur(3px) !important;
+  }
   body.loaded .hero-visual.reveal-on-load {
     opacity: 1 !important;
     transform: none !important;
-    filter: none !important;
-    clip-path: none !important;
-    transition: none !important;
+    filter: blur(0) !important;
+    transition:
+      opacity .44s ease .12s,
+      transform .52s cubic-bezier(.22,.8,.2,1) .12s,
+      filter .40s ease .12s !important;
   }
-  /* CTA buttons themselves should never inherit an entrance delay. */
-  .hero-cta,
-  .hero-cta .btn {
+
+  /* Question button should not wait for any hero sequence. */
+  .question-fab {
     opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-    transition-delay: 0s !important;
+    visibility: visible !important;
   }
-  /* Keep the car static on mobile as requested previously. */
+
+  /* Car movement remains disabled on mobile, as requested earlier. */
   .dossier-car img {
     animation: none !important;
     transform: none !important;
