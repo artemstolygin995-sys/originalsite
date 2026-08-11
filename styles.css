@@ -1473,9 +1473,10 @@ body.question-open { overflow: hidden; }
 }
 
 
-/* ===== v22: mobile intro without half-screen clipping ===== */
+/* ===== v22: synchronized mobile first paint ===== */
 @media (max-width: 760px), (pointer: coarse) {
-  /* Keep the intro, but never cover only one side of the viewport. */
+  /* Do not sweep a solid veil across the screen on mobile: it makes the
+     right side look unloaded. Keep a brief whole-screen fade instead. */
   .home-page .hero::after {
     display: block !important;
     content: "" !important;
@@ -1486,57 +1487,159 @@ body.question-open { overflow: hidden; }
     background: linear-gradient(100deg,#0a1018 0%,#0d1725 58%,#173156 88%,rgba(23,49,86,.96) 100%) !important;
     transform: none !important;
     opacity: 1 !important;
-    animation: none !important;
-    transition: opacity .62s ease !important;
+    animation: mobileHeroVeilOut .56s ease-out .02s forwards !important;
+    transition: none !important;
   }
   .home-page.loaded .hero::after {
     transform: none !important;
     opacity: 0 !important;
-    transition: opacity .62s ease !important;
+    transition: none !important;
   }
 
-  /* No clip-path on mobile: it was visually cutting off the right side. */
-  .hero-content.reveal-on-load {
-    opacity: 0 !important;
-    transform: translateY(10px) scale(.992) !important;
-    filter: blur(7px) !important;
-    clip-path: none !important;
-    animation: none !important;
+  /* Start header/content/card together instead of staged delays. */
+  .home-page:not(.loaded) .site-header,
+  .home-page.loaded .site-header {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: background .35s ease, border-color .35s ease, backdrop-filter .35s ease !important;
   }
+  .site-header {
+    animation: mobileHeaderIn .58s cubic-bezier(.22,.72,.24,1) both !important;
+  }
+
+  .hero-content.reveal-on-load,
   body.loaded .hero-content.reveal-on-load {
     opacity: 1 !important;
     transform: none !important;
-    filter: blur(0) !important;
+    filter: none !important;
     clip-path: none !important;
-    transition: opacity .66s ease .06s, transform .78s var(--ease) .06s, filter .66s ease .06s !important;
+    transition: none !important;
+    animation: mobileHeroContentIn .72s cubic-bezier(.22,.72,.24,1) .03s both !important;
   }
 
-  /* Buttons are always full-width/full-shape; animate only opacity/position of the parent. */
-  .hero-cta,
-  .hero-cta .btn {
-    clip-path: none !important;
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
-    overflow: visible !important;
+  /* Keep the entire right/card side rendered from first paint. Animate only
+     a small movement, never visibility/blur, so it cannot look half-loaded. */
+  .hero-visual.reveal-on-load,
+  body.loaded .hero-visual.reveal-on-load {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    visibility: visible !important;
+    transition: none !important;
+    animation: mobileHeroVisualIn .72s cubic-bezier(.22,.72,.24,1) .03s both !important;
   }
-
-  /* Hero card appears as a complete card from the first frame. */
-  .hero-visual.reveal-on-load {
-    opacity: .72 !important;
-    transform: translateY(10px) scale(.99) !important;
-    filter: blur(3px) !important;
-    clip-path: none !important;
+  .vehicle-dossier,
+  .vehicle-card-back,
+  .dossier-head,
+  .dossier-grid,
+  .dossier-line,
+  .dossier-car,
+  .dossier-car img {
+    opacity: 1 !important;
     visibility: visible !important;
   }
+  .dossier-car img { animation: none !important; }
+
+  @keyframes mobileHeroVeilOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  @keyframes mobileHeaderIn {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes mobileHeroContentIn {
+    from { opacity: .12; transform: translateX(-24px); filter: blur(5px); }
+    to { opacity: 1; transform: none; filter: blur(0); }
+  }
+  @keyframes mobileHeroVisualIn {
+    from { transform: translateX(18px) scale(.99); }
+    to { transform: none; }
+  }
+}
+
+
+/* ===== v23: visible mobile intro without clipping ===== */
+@media (max-width: 760px), (pointer: coarse) {
+  /* Never cover/crop the screen on mobile. */
+  .home-page .hero::after,
+  .home-page.loaded .hero::after {
+    display: none !important;
+    content: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* A clearly visible header entrance. */
+  .home-page:not(.loaded) .site-header,
+  .home-page.loaded .site-header,
+  .site-header {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: background .35s ease, border-color .35s ease, backdrop-filter .35s ease !important;
+    animation: v23MobileHeaderIn .72s cubic-bezier(.16,.78,.22,1) .02s both !important;
+  }
+
+  /* Main hero enters as one complete block: no clip-path, no width masking. */
+  .hero-content.reveal-on-load,
+  body.loaded .hero-content.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    transition: none !important;
+    animation: v23MobileContentIn .92s cubic-bezier(.16,.78,.22,1) .03s both !important;
+  }
+
+  /* Make the CTA motion visible too, but never crop the buttons. */
+  .hero-content .hero-cta {
+    animation: v23MobileCtaIn .78s cubic-bezier(.16,.78,.22,1) .18s both !important;
+  }
+
+  /* Card is present immediately, then smoothly settles into place. */
+  .hero-visual.reveal-on-load,
   body.loaded .hero-visual.reveal-on-load {
     opacity: 1 !important;
     transform: none !important;
-    filter: blur(0) !important;
+    filter: none !important;
     clip-path: none !important;
-    transition: opacity .7s ease .08s, transform .86s var(--ease) .08s, filter .7s ease .08s !important;
+    visibility: visible !important;
+    transition: none !important;
+    animation: v23MobileCardIn 1.02s cubic-bezier(.16,.78,.22,1) .12s both !important;
   }
 
-  /* Prevent any horizontal excursion while intro transforms are active. */
-  html, body { overflow-x: hidden !important; }
-  .hero { overflow-x: hidden !important; }
+  .vehicle-dossier,
+  .vehicle-card-back,
+  .dossier-head,
+  .dossier-grid,
+  .dossier-line,
+  .dossier-car,
+  .dossier-car img {
+    visibility: visible !important;
+  }
+
+  /* Keep requested static car after entrance on phones. */
+  .dossier-car img { animation: none !important; }
+
+  @keyframes v23MobileHeaderIn {
+    0% { opacity: 0; transform: translateY(-18px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes v23MobileContentIn {
+    0% { opacity: 0; transform: translate3d(-32px,12px,0) scale(.985); filter: blur(8px); }
+    55% { opacity: .82; }
+    100% { opacity: 1; transform: translate3d(0,0,0) scale(1); filter: blur(0); }
+  }
+
+  @keyframes v23MobileCtaIn {
+    0% { opacity: 0; transform: translateY(18px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes v23MobileCardIn {
+    0% { opacity: 0; transform: translate3d(0,26px,0) scale(.975); filter: blur(7px); }
+    60% { opacity: .86; }
+    100% { opacity: 1; transform: translate3d(0,0,0) scale(1); filter: blur(0); }
+  }
 }
