@@ -1473,3 +1473,88 @@ body.question-open { overflow: hidden; }
     transform: none !important;
   }
 }
+
+
+/* ===== v18 mobile instant entrance ===== */
+/* On mobile the intro no longer depends on JS adding .loaded. This avoids an empty screen on slow networks. */
+@media (max-width: 760px), (pointer: coarse) {
+  /* Disable the old JS-gated mobile states from v17. */
+  .home-page:not(.loaded) .site-header,
+  .home-page.loaded .site-header,
+  .hero-content.reveal-on-load,
+  body.loaded .hero-content.reveal-on-load,
+  .hero-visual.reveal-on-load,
+  body.loaded .hero-visual.reveal-on-load,
+  .hero-cta,
+  body.loaded .hero-cta {
+    transition: none !important;
+  }
+
+  /* Header is always renderable and animates by itself as soon as CSS is available. */
+  .home-page .site-header {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: mobileHeaderIntro .38s cubic-bezier(.22,.8,.2,1) both !important;
+  }
+
+  /* The hero copy is never left hidden waiting for JS. */
+  .hero-content.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    animation: mobileHeroCopyIntro .48s cubic-bezier(.22,.8,.2,1) both !important;
+  }
+
+  /* Buttons belong to the same sequence, with only a tiny stagger. */
+  .hero-cta {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: mobileHeroButtonsIntro .38s cubic-bezier(.22,.8,.2,1) .08s both !important;
+  }
+
+  /* Dossier follows almost immediately and cannot stay invisible if JS is delayed/fails. */
+  .hero-visual.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    animation: mobileHeroCardIntro .48s cubic-bezier(.22,.8,.2,1) .12s both !important;
+  }
+
+  /* A short sweep remains, but it is a self-contained CSS animation and never blocks content for > .6s. */
+  .home-page .hero::after,
+  .home-page.loaded .hero::after {
+    display: block !important;
+    opacity: 0 !important;
+    transform: translateX(108%) !important;
+    animation: mobileHeroSweep .52s cubic-bezier(.68,.04,.22,1) both !important;
+    transition: none !important;
+  }
+
+  @keyframes mobileHeaderIntro {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes mobileHeroCopyIntro {
+    from { opacity: .18; transform: translateX(-12px); filter: blur(3px); }
+    to   { opacity: 1; transform: translateX(0); filter: blur(0); }
+  }
+  @keyframes mobileHeroButtonsIntro {
+    from { opacity: .15; transform: translateY(7px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes mobileHeroCardIntro {
+    from { opacity: .12; transform: translateY(12px) scale(.992); filter: blur(2px); }
+    to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
+  @keyframes mobileHeroSweep {
+    0%   { opacity: .45; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(108%); }
+  }
+
+  /* Keep the car itself static on mobile, per the earlier request. */
+  .dossier-car img {
+    animation: none !important;
+    transform: none !important;
+  }
+}
