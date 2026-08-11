@@ -1379,3 +1379,41 @@ body.question-open { overflow: hidden; }
   cursor: wait;
   transform: none !important;
 }
+
+
+/* ===== v16 mobile immediate first paint ===== */
+@media (max-width: 760px), (pointer: coarse) {
+  /* Do not hide the first screen while the page is booting on phones. */
+  .home-page .hero::after {
+    display: none !important;
+  }
+  .home-page:not(.loaded) .site-header,
+  .home-page.loaded .site-header {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: background .25s ease, border-color .25s ease, backdrop-filter .25s ease !important;
+  }
+  .hero-content.reveal-on-load,
+  .hero-visual.reveal-on-load,
+  body.loaded .hero-content.reveal-on-load,
+  body.loaded .hero-visual.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+  /* CTA buttons themselves should never inherit an entrance delay. */
+  .hero-cta,
+  .hero-cta .btn {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition-delay: 0s !important;
+  }
+  /* Keep the car static on mobile as requested previously. */
+  .dossier-car img {
+    animation: none !important;
+    transform: none !important;
+  }
+}
