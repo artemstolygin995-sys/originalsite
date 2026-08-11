@@ -1443,3 +1443,31 @@ body.question-open { overflow: hidden; }
     animation: none !important;
   }
 }
+
+
+/* ===== v21: immediate mobile hero-card render ===== */
+@media (max-width: 760px), (pointer: coarse) {
+  /* The card must never be completely hidden while the intro animation runs. */
+  .hero-visual.reveal-on-load {
+    opacity: .96 !important;
+    transform: translateX(38px) rotateY(-6deg) scale(.97) !important;
+    filter: blur(4px) !important;
+    animation: none !important;
+    visibility: visible !important;
+  }
+  body.loaded .hero-visual.reveal-on-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: blur(0) !important;
+    transition: opacity .62s ease 0s, transform .86s var(--ease) 0s, filter .7s ease 0s !important;
+  }
+  .vehicle-dossier,
+  .dossier-car,
+  .dossier-car img {
+    visibility: visible !important;
+  }
+  .dossier-car img {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
