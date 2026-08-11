@@ -1542,9 +1542,10 @@ body.question-open { overflow: hidden; }
 }
 
 
-/* ===== v28: mobile intro only for visible first-screen elements ===== */
-@media (max-width: 760px), (pointer: coarse) {
-  /* Disable the heavy mobile hero reveal variants that caused delayed/partial rendering. */
+/* ===== v30: reliable mobile intro, only the five approved elements ===== */
+@media (max-width: 760px) {
+  /* Desktop intro stays untouched outside this media query. On mobile the
+     hero/card/header themselves are never hidden, clipped or delayed. */
   .home-page .hero::after,
   .home-page.loaded .hero::after {
     display: none !important;
@@ -1553,21 +1554,23 @@ body.question-open { overflow: hidden; }
     transition: none !important;
   }
 
+  .home-page .site-header,
   .home-page:not(.loaded) .site-header,
-  .home-page.loaded .site-header {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: background .35s ease, border-color .35s ease, backdrop-filter .35s ease !important;
-  }
-
-  .hero-content.reveal-on-load,
-  body.loaded .hero-content.reveal-on-load,
-  .hero-visual.reveal-on-load,
-  body.loaded .hero-visual.reveal-on-load {
+  .home-page.loaded .site-header,
+  .home-page .hero-content.reveal-on-load,
+  .home-page.loaded .hero-content.reveal-on-load,
+  .home-page .hero-visual.reveal-on-load,
+  .home-page.loaded .hero-visual.reveal-on-load {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
     clip-path: none !important;
+  }
+
+  .home-page .hero-content.reveal-on-load,
+  .home-page.loaded .hero-content.reveal-on-load,
+  .home-page .hero-visual.reveal-on-load,
+  .home-page.loaded .hero-visual.reveal-on-load {
     transition: none !important;
   }
 
@@ -1578,53 +1581,35 @@ body.question-open { overflow: hidden; }
     opacity: 1 !important;
     visibility: visible !important;
     filter: none !important;
-    transform: none !important;
   }
 
-  /* Animate ONLY the elements requested for mobile: heading, lead, two buttons, and the question button. */
+  /* Initial state is installed in <head> before Safari can paint the page. */
+  html.mobile-intro-prep .home-page .hero-content h1,
+  html.mobile-intro-prep .home-page .hero-content .hero-lead,
+  html.mobile-intro-prep .home-page .hero-content .hero-cta .btn,
+  html.mobile-intro-prep .home-page .question-fab {
+    opacity: 0 !important;
+  }
+
+  html.mobile-intro-prep .home-page .hero-content h1 {
+    transform: translate3d(0, 38px, 0) scale(.975) !important;
+  }
+  html.mobile-intro-prep .home-page .hero-content .hero-lead {
+    transform: translate3d(0, 30px, 0) !important;
+  }
+  html.mobile-intro-prep .home-page .hero-content .hero-cta .btn,
+  html.mobile-intro-prep .home-page .question-fab {
+    transform: translate3d(0, 22px, 0) !important;
+  }
+
+  /* Do not allow older mobile transition rules to compete with the WAAPI intro. */
   .home-page .hero-content h1,
   .home-page .hero-content .hero-lead,
   .home-page .hero-content .hero-cta .btn,
   .home-page .question-fab {
-    will-change: opacity, transform;
-    backface-visibility: hidden;
-  }
-
-  .home-page:not(.loaded) .hero-content h1,
-  .home-page:not(.loaded) .hero-content .hero-lead,
-  .home-page:not(.loaded) .hero-content .hero-cta .btn,
-  .home-page:not(.loaded) .question-fab {
-    opacity: 0;
-    transform: translate3d(0, 18px, 0);
-  }
-
-  .home-page.loaded .hero-content h1 {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition: opacity .48s ease .04s, transform .64s cubic-bezier(.22,.75,.23,1) .04s;
-  }
-
-  .home-page.loaded .hero-content .hero-lead {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition: opacity .48s ease .14s, transform .64s cubic-bezier(.22,.75,.23,1) .14s;
-  }
-
-  .home-page.loaded .hero-content .hero-cta .btn:nth-child(1) {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition: opacity .44s ease .22s, transform .58s cubic-bezier(.22,.75,.23,1) .22s;
-  }
-
-  .home-page.loaded .hero-content .hero-cta .btn:nth-child(2) {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition: opacity .44s ease .30s, transform .58s cubic-bezier(.22,.75,.23,1) .30s;
-  }
-
-  .home-page.loaded .question-fab {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition: opacity .44s ease .38s, transform .58s cubic-bezier(.22,.75,.23,1) .38s;
+    clip-path: none !important;
+    -webkit-clip-path: none !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
   }
 }

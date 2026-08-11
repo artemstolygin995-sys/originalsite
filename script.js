@@ -12,6 +12,58 @@
 
   requestAnimationFrame(() => body.classList.add('loaded'));
 
+  // v30 mobile first-screen intro. The initial state is set in <head> before
+  // the first paint. We wait for two painted frames, then animate exactly the
+  // five approved elements: title, lead, two hero buttons and "Есть вопрос?".
+  const playMobileIntro = () => {
+    const root = document.documentElement;
+    const mobile = window.matchMedia && window.matchMedia('(max-width: 760px)').matches;
+    if (!mobile || !root.classList.contains('mobile-intro-prep')) {
+      root.classList.remove('mobile-intro-prep');
+      return;
+    }
+
+    const targets = [
+      { el: document.querySelector('.hero-content h1'), y: 38, scale: .975, delay: 0 },
+      { el: document.querySelector('.hero-content .hero-lead'), y: 30, scale: 1, delay: 110 },
+      { el: document.querySelector('.hero-content .hero-cta .btn:nth-child(1)'), y: 22, scale: 1, delay: 220 },
+      { el: document.querySelector('.hero-content .hero-cta .btn:nth-child(2)'), y: 22, scale: 1, delay: 310 },
+      { el: document.querySelector('.question-fab'), y: 22, scale: 1, delay: 400 }
+    ].filter(item => item.el);
+
+    const start = () => {
+      const animations = targets.map(({ el, y, scale, delay }) => el.animate([
+        { opacity: 0, transform: `translate3d(0, ${y}px, 0) scale(${scale})` },
+        { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }
+      ], {
+        duration: 720,
+        delay,
+        easing: 'cubic-bezier(.16,1,.3,1)',
+        fill: 'both'
+      }));
+
+      // WAAPI owns the start state now, so removing the prep class cannot flash.
+      root.classList.remove('mobile-intro-prep');
+
+      Promise.allSettled(animations.map(animation => animation.finished)).then(() => {
+        animations.forEach(animation => animation.cancel());
+      });
+    };
+
+    // Safari can execute JS before its first visible frame. Two rAFs plus a
+    // small delay guarantee a visible starting frame before playback begins.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.setTimeout(start, 90);
+      });
+    });
+
+    // Safety: never leave requested content hidden if animations are unavailable.
+    window.setTimeout(() => root.classList.remove('mobile-intro-prep'), 1800);
+  };
+
+  playMobileIntro();
+
   const onScroll = () => {
     const y = window.scrollY;
     if (header) header.classList.toggle('scrolled', y > 24);
